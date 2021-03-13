@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RuntimeIdentifiers>osx-x64</RuntimeIdentifiers>
+    <UseAppHost>true</UseAppHost>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <CFBundleShortVersionString>1.0.0</CFBundleShortVersionString>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
+    <Folder Include="Models\" />
+    <AvaloniaResource Include="Assets\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Desktop" Version="0.10.0" />
+    <PackageReference Include="Avalonia.Diagnostics" Version="0.10.0" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.0" />
+    <PackageReference Include="Dotnet.Bundle" Version="*" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GroupPoster.Application\GroupPoster.ApplicationLayer.csproj" />
+    <ProjectReference Include="..\GroupPoster.Infrastructure\GroupPoster.Infrastructure.csproj" />
+  </ItemGroup>
+</Project>

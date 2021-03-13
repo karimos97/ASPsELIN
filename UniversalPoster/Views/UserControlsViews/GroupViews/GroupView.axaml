@@ -1,0 +1,41 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UniversalPoster.Views.UserControlsViews.GroupViews.GroupView">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="2*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <DataGrid Grid.Column="0" Items="{Binding Groups}">
+      <DataGrid.Styles>
+        <Style Selector="DataGridColumnHeader">
+          <Setter Property="Foreground" Value="Black"/>
+        </Style>
+      </DataGrid.Styles>
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Name" Width="*" Binding="{Binding Name}"/>
+        <DataGridTextColumn Header="Link" Width="2*" Binding="{Binding Link}"/>
+        <DataGridTemplateColumn Width="0.5*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Button HorizontalAlignment="Center" Content="Delete" Command="{Binding $parent[UserControl].DataContext.DeleteRow}" CommandParameter="{Binding Id}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <StackPanel Grid.Column="1" Margin="20 20 20 0" KeyboardNavigation.TabNavigation="Cycle">
+      <Label Content="Name"/>
+      <TextBox Name="Name" Text="{Binding Name}"/>
+      <Label Content="Link"/>
+      <TextBox Name="Link" Text="{Binding Link}"/>
+      <Button Content="Add" Command="{Binding AddGroup}" HorizontalAlignment="Center" Margin="0 20" Padding="20 10"/>
+      <Label Content="{Binding Error}" Foreground="Red"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

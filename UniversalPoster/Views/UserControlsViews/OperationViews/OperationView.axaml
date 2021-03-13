@@ -1,0 +1,43 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UniversalPoster.Views.UserControlsViews.OperationViews.OperationView">
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="2*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <DataGrid Grid.Column="0" Items="{Binding Accounts}">
+      <DataGrid.Styles>
+        <Style Selector="DataGridColumnHeader">
+          <Setter Property="Foreground" Value="Black"/>
+        </Style>
+      </DataGrid.Styles>
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Email" Width="2*" IsReadOnly="True" Binding="{Binding Email}"/>
+        <DataGridTextColumn Header="Password" Width="*" IsReadOnly="True" Binding="{Binding Password}"/>
+        <DataGridTemplateColumn Header="Selected" Width="*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <CheckBox HorizontalAlignment="Center" IsChecked="{Binding Selected}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <StackPanel Grid.Column="1" Margin="20 20 20 0" KeyboardNavigation.TabNavigation="Cycle">
+      <Label Content="Group"/>
+      <ComboBox Name="Group" Items="{Binding Groups}" MaxDropDownHeight="300" SelectedItem="{Binding Group}" />
+      <Label Content="Post"/>
+      <ComboBox Name="Post" Items="{Binding Posts}" MaxDropDownHeight="300" SelectedItem="{Binding Post}"/>
+      <CheckBox Content="Auto Selection" IsChecked="{Binding AutoSelection}"/>
+      <Button Content="Add" Command="{Binding StartPosting}" IsEnabled="{Binding !Posting}" HorizontalAlignment="Center" Margin="0 20" Padding="20 10"/>
+      <Label Content="{Binding Error}" Foreground="Red"/>
+      <Label Content="{Binding Success}" Foreground="Green"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

@@ -1,0 +1,32 @@
+﻿<Window x:Class="GroupPoster.WPFUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GroupPoster.WPFUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_Data">
+                    <MenuItem Header="_Accounts" Click="AddAccounts_Click"/>
+                    <MenuItem Header="_Groups" Click="AddGroups_Click"/>
+                    <MenuItem Header="_Posts" Click="AddPosts_Click"/>
+                    <Separator/>
+                    <MenuItem Header="_Shut Down" Click="ShutDown_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Operation" Click="Actions_Click"/>
+
+                <!--<MenuItem Header="_Settings">
+                    <MenuItem Header="_Configure">
+                        <MenuItem Header="_Delay Times"/>
+                        <MenuItem Header="_Shedule"/>
+                    </MenuItem>
+                </MenuItem>-->
+
+            </Menu>
+            <Frame x:Name="MainPage" NavigationUIVisibility="Hidden"/>
+        </DockPanel>
+    </Grid>
+</Window>

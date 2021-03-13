@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Groups";
+}
+
+<h1>Groups</h1>
+<div class="col-12">
+    <label for="N">Name</label>
+    <input type="text" class="form-control" v-model="Name" name="Name" id="Name">
+    <label for="Link">Link</label>
+    <input type="text" class="form-control" v-model="Link" name="Link" id="Link">
+    <div class="text-center">
+        <button class="btn btn-primary my-4 px-auto" v-on:click="Add">Add</button>
+    </div>
+</div>
+
+<table class="table table-striped table-inverse">
+    <thead>
+        <tr class="d-flex">
+            <th scope="col" class="col-1">#</th>
+            <th scope="col" class="col-3">Name</th>
+            <th scope="col" class="col-6">Link</th>
+            <th scope="col" class="col-2"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="group in groups" class="d-flex">
+            <th scope="row" class="col-1">{{group.id}}</th>
+            <td class="col-4">
+                <input v-show="group.nameSelected" type="text" v-model="group.name" v-on:change="Update(group, 'nameSelected')" />
+                <span v-show="!group.nameSelected" class="btn" v-on:click="Reverse(group, 'nameSelected')">{{group.name}}</span>
+            </td>
+            <td class="col-4">
+                <input v-show="group.linkSelected" type="text" v-model="group.link" v-on:change="Update(group, 'linkSelected')" />
+                <span v-show="!group.linkSelected" class="btn" v-on:click="Reverse(group, 'linkSelected')">{{group.link}}</span>
+            </td>
+            <td class="col-3">
+                <button class="btn btn-danger" v-on:click="Delete(group)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                Name: '',
+                api: '../api/groups',
+                Link: '',
+                groups: []
+            },
+
+            created() {
+                this.Get();
+            },
+
+            methods: {
+                Delete: function (group) {
+                    axios.delete(this.api, { data: { id: group.id } }).then(Response => {
+                        var index = this.groups.findIndex((grouptocheck) => group.id == grouptocheck.id);
+                        this.groups.splice(index, 1);
+                    });
+                },
+
+                Add: function () {
+                    if (this.Name !== '' && this.Link !== '') {
+                        axios.post(this.api, { name: this.Name, link: this.Link}).then(Response => {
+                            var groupid = Response.data;
+                            var groupname = this.Name;
+                            var grouplink = this.Link;
+                            this.groups.push(this.CreateGroup({
+                                id: groupid,
+                                name: groupname,
+                                link: grouplink
+                            }));
+                        });
+                        return;
+                    }
+
+                    alert('All Fields Must Be Filled!')
+                },
+
+                CreateGroup(group) {
+                    return {
+                        id: group.id,
+                        name: group.name,
+                        link: group.link,
+                        nameSelected: false,
+                        linkSelected: false,
+                    }
+                },
+
+                Get: function () {
+                    var targetcontainer = this.groups;
+                    axios.get(this.api).then(Response => {
+                        console.log(Response);
+                        var data = Response.data
+                        for (var v = 0; v < data.length; v++) {
+                            this.groups.push(this.CreateGroup(data[v]));
+                        }
+                    });
+                },
+
+                Update: function (group, target) {
+                    axios.put(this.api, group).then(Response => console.log('Do it'));
+                    this.Reverse(group, target);
+                },
+
+                Reverse: function (group, target) {
+                    group[target] = !group[target];
+                }
+            }
+        });
+    </script>
+}

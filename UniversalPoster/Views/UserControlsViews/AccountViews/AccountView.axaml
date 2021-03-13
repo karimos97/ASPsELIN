@@ -1,0 +1,46 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:common="clr-namespace:UniversalPoster.Common"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="UniversalPoster.Views.UserControlsViews.AccountViews.AccountView"
+             DataContext="{Binding}">
+  <UserControl.Resources>
+    <DataObject x:Key="proxy" />
+  </UserControl.Resources>
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="2*"/>
+      <ColumnDefinition Width="*"/>
+    </Grid.ColumnDefinitions>
+
+    <DataGrid Grid.Column="0" Items="{Binding Accounts}">
+      <DataGrid.Styles>
+        <Style Selector="DataGridColumnHeader">
+          <Setter Property="Foreground" Value="Black"/>
+        </Style>
+      </DataGrid.Styles>
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Email" Width="2*" Binding="{Binding Email}"/>
+        <DataGridTextColumn Header="Password" Width="*" Binding="{Binding Password}"/>
+        <DataGridTemplateColumn Width="0.5*">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Button HorizontalAlignment="Center" Content="Delete" Command="{Binding $parent[UserControl].DataContext.DeleteRow}" CommandParameter="{Binding Id}"/>
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <StackPanel Grid.Column="1" Margin="20 20 20 0" KeyboardNavigation.TabNavigation="Cycle">
+      <Label Content="Email"/>
+      <TextBox Name="Email" Text="{Binding Email}"/>
+      <Label Content="Password"/>
+      <TextBox Name="Password" Text="{Binding Password}"/>
+      <Button Content="Add" Command="{Binding AddAccount}" HorizontalAlignment="Center" Margin="0 20" Padding="20 10"/>
+      <Label Content="{Binding Error}" Foreground="Red"/>
+    </StackPanel>
+  </Grid>
+</UserControl>

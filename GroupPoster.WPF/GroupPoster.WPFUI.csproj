@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows7.0</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroupPoster.Application\GroupPoster.ApplicationLayer.csproj" />
+    <ProjectReference Include="..\GroupPoster.Infrastructure\GroupPoster.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

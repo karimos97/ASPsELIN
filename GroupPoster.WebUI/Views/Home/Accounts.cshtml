@@ -1,0 +1,117 @@
+@{
+    ViewData["Title"] = "Accounts";
+}
+
+<h1>Accounts</h1>
+<div class="col-12">
+    <label for="Email">Email</label>
+    <input type="text" class="form-control" v-model="Email" name="Email" id="Email">
+    <label for="Password">Password</label>
+    <input type="text" class="form-control" v-model="Password" name="Password" id="Password">
+    <div class="text-center">
+        <button class="btn btn-primary my-4 px-auto" v-on:click="Add">Add</button>
+    </div>
+</div>
+
+<table class="table table-striped table-inverse">
+    <thead>
+        <tr class="d-flex">
+            <th scope="col" class="col-1">#</th>
+            <th scope="col" class="col-4">Email</th>
+            <th scope="col" class="col-4">Password</th>
+            <th scope="col" class="col-3"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="account in accounts" class="d-flex">
+            <th scope="row" class="col-1">{{account.id}}</th>
+            <td class="col-4">
+                <input v-show="account.emailSelected" type="text" v-model="account.email" v-on:change="Update(account, 'emailSelected')" />
+                <span v-show="!account.emailSelected" class="btn" v-on:click="Reverse(account, 'emailSelected')">{{account.email}}</span>
+            </td>
+            <td class="col-4">
+                <input v-show="account.passwordSelected" type="text" v-model="account.password" v-on:change="Update(account, 'passwordSelected')" />
+                <span v-show="!account.passwordSelected" class="btn" v-on:click="Reverse(account, 'passwordSelected')">{{account.password}}</span>
+            </td>
+            <td class="col-3">
+                <button class="btn btn-danger" v-on:click="Delete(account)">Delete</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <script>
+        var app = new Vue({
+            el: '#app',
+            data: {
+                Email: '',
+                api: '../api/accounts',
+                Password: '',
+                accounts: []
+            },
+
+            created() {
+                this.Get();
+            },
+
+            methods: {
+                Delete: function (account) {
+                    axios.delete(this.api, { data: { id: account.id } }).then(Response => {
+                        var index = this.accounts.findIndex((accounttocheck) => account.id == accounttocheck.id);
+                        this.accounts.splice(index, 1);
+                    });
+                },
+
+                Add: function () {
+                    if (this.Email !== '' && this.Password !== '') {
+                        axios.post(this.api, { email: this.Email, password: this.Password }).then(Response => {
+                            var accountid = Response.data;
+                            var accountemail = this.Email;
+                            var accountpassword = this.Password;
+                            this.accounts.push(this.CreateAccount({
+                                id: accountid,
+                                email: accountemail,
+                                password: accountpassword
+                            }));
+                        });
+                        return;
+                    }
+
+                    alert('All Fields Must Be Filled!')
+                },
+
+                CreateAccount(account) {
+                    return {
+                        id: account.id,
+                        email: account.email,
+                        password: account.password,
+                        emailSelected: false,
+                        passwordSelected: false,
+                    }
+                },
+
+                Get: function () {
+                    var targetcontainer = this.accounts;
+                    axios.get(this.api).then(Response => {
+                        console.log(Response);
+                        var data = Response.data
+                        for (var v = 0; v < data.length; v++) {
+                            this.accounts.push(this.CreateAccount(data[v]));
+                        }
+                    });
+                },
+
+                Update: function (account, target) {
+                    axios.put(this.api, account).then(Response => console.log('Do it'));
+                    this.Reverse(account, target);
+                },
+
+                Reverse: function (account, target) {
+                    account[target] = !account[target];
+                }
+            }
+        });
+    </script>
+}

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>GroupPoster.ApplicationLayer</RootNamespace>
+    <AssemblyName>GroupPoster.ApplicationLayer</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="GroupMembers\Commnand\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GroupPoster.Domain\GroupPoster.Domain.csproj" />
+  </ItemGroup>
+
+</Project>
